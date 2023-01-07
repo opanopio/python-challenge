@@ -1,7 +1,7 @@
 import os
 import csv
 
-csvpath = os.path.join("..//PyBank//Resources//budget_data.csv")
+csvpath = os.path.join("PyBank//Resources//budget_data.csv")
 
 with open(csvpath) as pybankfile:
 
@@ -35,6 +35,9 @@ with open(csvpath) as pybankfile:
         #Greatest Increase/Decrease in Profits:
         total_GIn=AverageX.index(max(AverageX))+1
         total_GDe=AverageX.index(min(AverageX))+1
+
+    # txt file output
+    output_file = os.path.join('PyBank/Analysis/Budget_Analysis.txt')
 
     #Report Layout
     print("Financial Analysis")

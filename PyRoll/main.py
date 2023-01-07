@@ -1,38 +1,81 @@
 import os
 import csv
-import collections
 
-csvpath = os.path.join("..//PyRoll//Resources//election_data.csv")
+total_votes = 0
+c_votes = 0
+d_votes = 0
+r_votes = 0
 
-with open(csvpath) as pyrollfile:
 
-    csvreader = csv.reader(pyrollfile, delimiter=',')
-    header = next(csvreader)
+# Path
+csvpath = os.path.join('PyRoll/Resources/election_data.csv')
 
-    total_votes= 0
+# Open and Read Path
+with open(csvpath) as csvfile:
 
-    print("Election Results")
-    print("________________")
-
-    for pyroll in csvreader:
-
-        total_votes += 1
-    print(f"Total Votes: {total_votes}")
-    print("________________")
     
-        #CCVotes_Rec= row[2]
-    print("Charles Casper Stockham: {Percent_Votes} {CCVotes_Rec}")
+    reader = csv.reader(csvfile)
+    
+    # Read the header
+    header = next(csvfile)
+
+    # Read rows
+    for row in reader:
+        
+        # Calculate total votes
+        total_votes += 1
+        
+        # calculate votes for each candidate
+        if (row[2] == "Charles Casper Stockham"):
+            c_votes += 1
+        elif (row[2] == "Diana DeGette"):
+            d_votes += 1
+        else: 
+            r_votes += 1
+        
+            
+    # calculate percentages
+    c_percent = c_votes / total_votes
+    d_percent = d_votes / total_votes
+    r_percent = r_votes / total_votes
+    
+    # winner of election
+    winner = max(c_votes, d_votes, r_votes)
+
+    if winner == c_votes:
+        winner_name = "Charles Casper Stockham"
+    elif winner == d_votes:
+        winner_name = "Diana DeGette"
+    else:
+        winner_name = "Raymon Anthony Doanne"
+   
+
+# print results
+print(f"Election Results")
+print(f"---------------------------")
+print(f"Total Votes: {total_votes}")
+print(f"---------------------------")
+print(f"Charles Casper Stockham: {c_percent:.3%}({c_votes})")
+print(f"Correy: {d_percent:.3%}({d_votes})")
+print(f"Raymon Anthony Doanne: {r_percent:.3%}({r_votes})")
+print(f"---------------------------")
+print(f"Winner: {winner_name}")
+print(f"---------------------------")
+
+# write file to
+output_file = os.path.join('PyRoll/analysis/election_results.txt')
 
 
-    print("Diana DeGette: {Percent_Votes} {Votes_Rec}")
+with open(output_file, 'w',) as txtfile:
 
-
-    print("Raymon Anthony Doane: {Percent_Votes} {Votes_Rec}")
-    print("________________")
-    print("Winner: {Winr}")
-    print("________________")
-
-    #create a list who voters voted for
-    #create a dict for the vote count
-    #Key is the candidate name
-    #For Loop needed to pull votes
+# write data in analysis file
+    txtfile.write(f"Election Results\n")
+    txtfile.write(f"---------------------------\n")
+    txtfile.write(f"Total Votes: {total_votes}\n")
+    txtfile.write(f"---------------------------\n")
+    txtfile.write(f"Charles Casper Stockham: {c_percent:.3%}({c_votes})\n")
+    txtfile.write(f"Diana DeGette {d_percent:.3%}({d_votes})\n")
+    txtfile.write(f"Raymon Anthony Doanne: {r_percent:.3%}({r_votes})\n")
+    txtfile.write(f"---------------------------\n")
+    txtfile.write(f"Winner: {winner_name}\n")
+    txtfile.write(f"---------------------------\n")
